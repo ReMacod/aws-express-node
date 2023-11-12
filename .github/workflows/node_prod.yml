@@ -1,10 +1,7 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-
-name: Node.js CI/CD STAGE API
+name: Node.js CI/CD PROD API
 
 on:
-  push:
-    branches: ["main"]
+  workflow_dispatch: {}
 
 jobs:
   build:
