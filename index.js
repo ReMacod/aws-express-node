@@ -11,6 +11,8 @@ const pool = new Pool({
   port: process.env.DB_PORT,
 });
 
+module.exports = pool;
+
 const app = express();
 app.get("/", (req, res) =>
   res.json({
@@ -32,3 +34,4 @@ app.get("/users/:id", async (req, res) => {
 });
 
 app.listen(process.env.PORT || 5001);
+// app.listen(PORT, () => console.log(`Server running on PORT ${PORT}`));
