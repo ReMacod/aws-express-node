@@ -3,9 +3,16 @@
 name: Node.js CI/CD STAGE API
 
 on:
-  push:
-    branches: ["main"]
-
+  workflow_dispatch:
+    inputs:
+      blockDeployment:
+        description: "Block deployment to dev or prod (true/false)?"
+        required: false
+        default: "true"
+      environmentName:
+        description: "Environment to deploy to dev or prod."
+        required: true
+        default: dev
 jobs:
   build:
     runs-on: self-hosted
