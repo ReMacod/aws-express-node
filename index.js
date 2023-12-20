@@ -11,9 +11,13 @@ const pool = new Pool({
   port: process.env.DB_PORT,
 });
 
+const PORT = process.env.PORT || 5001;
+
 module.exports = pool;
 
 const app = express();
+app.use(express.json());
+
 app.get("/", (req, res) =>
   res.json({
     message: "Hello Codelivery 👀, Api running ... for stage and prod",
@@ -33,5 +37,27 @@ app.get("/users/:id", async (req, res) => {
   }
 });
 
-app.listen(process.env.PORT || 5001);
-// app.listen(PORT, () => console.log(`Server running on PORT ${PORT}`));
+app.post("/users", async (req, res) => {
+  try {
+    const { name, lastName, email, country } = req.body;
+    const { rows } = await pool.query(
+      "INSERT INTO users (name, last_name, email, country) VALUES ($1, $2, $3, $4) RETURNING *",
+      [name, lastName, email, country]
+    );
+    return res.json({ data: rows });
+  } catch (e) {
+    res.json({ error: e.message });
+  }
+});
+
+//todo naredi put update or create input
+
+//patch spremeni userja
+
+//delete user sample
+
+// get , post - create, put - update or create, patch - update, delete
+
+//CRUD API
+
+app.listen(PORT, () => console.log(`Server running on PORT ${PORT}`));
