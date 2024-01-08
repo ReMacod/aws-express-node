@@ -1,20 +1,20 @@
-const pool = require("./database");
+const pool = require("../database");
 const express = require("express");
 
-const router = express.Router();
+const user = express.Router();
 
-router.get("/", (req, res) =>
+user.get("/", (req, res) =>
   res.json({
     message: "Hello Codelivery 👀, Api running ... for stage and prod",
   })
 );
 
-router.get("/", async (req, res) => {
+user.get("/", async (req, res) => {
   const result = await pool.query("SELECT * FROM users");
   res.json(result);
 });
 
-router.get("/:id", async (req, res) => {
+user.get("/:id", async (req, res) => {
   const { id } = req.params;
   if (id) {
     const result = await pool.query("SELECT * FROM users WHERE id = $1", [id]);
@@ -22,7 +22,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+user.post("/", async (req, res) => {
   try {
     const { name, lastName, email, country } = req.body;
     const { rows } = await pool.query(
@@ -35,7 +35,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.put("/", async (req, res) => {
+user.put("/", async (req, res) => {
   try {
     const { name, lastName, email, country, id } = req.body;
     const { rows } = await pool.query(
@@ -48,7 +48,7 @@ router.put("/", async (req, res) => {
   }
 });
 
-router.delete("/", async (req, res) => {
+user.delete("/", async (req, res) => {
   try {
     const { id } = req.body;
     const { rows } = await pool.query("DELETE from users WHERE ID = $1", [id]);
@@ -75,4 +75,4 @@ router.delete("/", async (req, res) => {
 
 //
 
-module.exports = router;
+module.exports = user;
